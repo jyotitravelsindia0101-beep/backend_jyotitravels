@@ -1,3 +1,4 @@
+import { describe, it, expect } from '@jest/globals';
 import request from 'supertest';
 import app from '../src/app';
 
@@ -114,6 +115,17 @@ describe('Jyoti Travels Backend REST API Test Suite', () => {
 
       expect(response.status).toBe(400);
       expect(response.body.status).toBe('fail');
+    });
+  });
+
+  describe('Server Keep-Alive Cron Task', () => {
+    it('should initialize keep-alive cron job without error', () => {
+      const { initKeepAliveCron } = require('../src/utils/cron');
+      const task = initKeepAliveCron();
+      expect(task).toBeDefined();
+      if (task && task.stop) {
+        task.stop();
+      }
     });
   });
 
